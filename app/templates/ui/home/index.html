@@ -1,0 +1,19 @@
+{% extends 'shared/base.html' %}
+
+{% block title %}홈 - LLM Admin{% endblock %}
+
+{% block content %}
+  <h2>{{ message }}</h2>
+  <p>이곳은 LLM 프로젝트를 관리할 수 있는 대시보드입니다.</p>
+  <ul>
+    <li>📂 데이터를 업로드하고</li>
+    <li>🚀 모델을 학습시키고</li>
+    <li>🧪 학습된 모델을 테스트할 수 있어요.</li>
+  </ul>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    console.log("홈 페이지가 로드되었습니다!");
+  </script>
+{% endblock %}

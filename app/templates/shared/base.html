@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}LLM Admin{% endblock %}</title>
+  <!-- <link rel="stylesheet" href="/static/style.css"> -->
+</head>
+<body>
+  <header>
+    <h1>🧠 LLM 관리 패널</h1>
+    <nav>
+      <a href="/">홈</a> |
+      <a href="/upload">데이터 업로드</a> |
+      <a href="/train">모델 학습</a> |
+      <a href="/test">테스트</a>
+    </nav>
+    <hr>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <hr>
+    <p style="text-align: center;">© 2025 LLM Admin</p>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
