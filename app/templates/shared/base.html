@@ -2,29 +2,32 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}LLM Admin{% endblock %}</title>
-  <!-- <link rel="stylesheet" href="/static/style.css"> -->
+  <title>{% block title %}INSERT LLM{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/reset.css">
+  <link rel="stylesheet" href="/static/css/base.css">
 </head>
 <body>
-  <header>
-    <h1>🧠 LLM 관리 패널</h1>
-    <nav>
-      <a href="/">홈</a> |
-      <a href="/upload">데이터 업로드</a> |
-      <a href="/train">모델 학습</a> |
-      <a href="/test">테스트</a>
-    </nav>
-    <hr>
-  </header>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">LLM 관리 패널</h1>
+      <nav class="navigation">
+        <a href="/home">홈</a>
+        <a href="/train">모델 학습</a>
+        <a href="/extract">URL 데이터 추출</a>
+        <a href="/compare">모델 비교</a>
+      </nav>
+    </header>
 
-  <main>
-    {% block content %}{% endblock %}
-  </main>
+    <main class="main">
+      {% block content %}{% endblock %}
+    </main>
 
-  <footer>
-    <hr>
-    <p style="text-align: center;">© 2025 LLM Admin</p>
-  </footer>
+    <!-- <footer class="footer">
+      <p style="text-align: center;">© 2025 LLM Admin</p>
+    </footer> -->
+  </div>
+
+  <script src="/static/js/base.js"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>
