@@ -5,7 +5,7 @@ from app.schemas.json_response import JSONResponse
 T = TypeVar("T")
 
 
-def success_response(data: T, message: str = "") -> JSONResponse[T]:
+def success_response(data: T = None, message: str = "") -> JSONResponse[T]:
     return JSONResponse(success=True, message=message, data=data)
 
 

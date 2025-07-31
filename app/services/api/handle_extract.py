@@ -2,8 +2,8 @@ import traceback
 from pydantic import BaseModel
 
 from app.enums.prompt import PromptType
-from app.services.parser.html_parser import extract_body_from_html
-from app.utils.prompt import generate_prompt
+from app.services.extract.parser import extract_body_from_html
+from app.services.prompt.prompt import generate_prompt
 from app.services.llm.ollama.llama3 import generate_llama3_response
 from app.services.llm.gemini.gemini_flash import generate_gemini_flash_response
 from app.schemas.json_response import JSONResponse
@@ -99,7 +99,7 @@ async def generate_data_from_url(url: str) -> JSONResponse[ResponseContent]:
             ),
         )
     except Exception as e:
-        print("[ERROR] app/services/api/excract.py 예외 발생:", e)
+        print("[ERROR] app/services/api/handle_excract.py 예외 발생:", e)
         print(f"URL: {url}")
 
         traceback.print_exc()

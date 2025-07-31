@@ -1,3 +1,5 @@
+{% import 'macros/loading-spinner.html' as spinner %}
+
 {% extends 'shared/base.html' %}
 
 {% block title %}URL 데이터 추출 - LLM Admin{% endblock %}
@@ -15,7 +17,7 @@
           <p>여기에 URL을 입력하고 추출 결과를 확인할 수 있습니다.</p>          
         </header>
 
-        <form id="extract-form" method="post" action="/extract">
+        <form id="extract-form" method="post" action="/">
           <label for="url">URL:</label>
           <input type="url" id="url" name="url" required placeholder="https://example.com">
           <button type="submit">데이터 추출</button>
@@ -27,9 +29,7 @@
           <p>입력한 URL을 통해 추출된 결과입니다.</p>
         </header>
 
-        <div id="result-loading-container" class="loading-container hidden">
-          <p>결과를 불러오는 중입니다...</p>
-        </div>
+        {{ spinner.spinner('loading-spinner') }}
 
         <div id="result-container" class="result-container hidden">
           <div>

@@ -1,32 +1,24 @@
-const handleLoadingSpinner = (state) => {
-  const container = document.getElementById("result-loading-container");
-  if (!container) return;
+const handleLoading = (state) => {
+  try {
+    const loadingSpinner = document.getElementById("loading-spinner");
+    const resultContainer = document.getElementById("result-container");
 
-  const existingSpinner = container.querySelector(".spinner");
+    if (!loadingSpinner || !resultContainer) return;
 
-  if (state) {
-    container.classList.remove("hidden");
-
-    if (!existingSpinner) {
-      const spinner = document.createElement("div");
-      spinner.className = "spinner";
-      container.appendChild(spinner);
+    if (state) {
+      loadingSpinner.classList.remove("hidden");
+      resultContainer.classList.add("hidden");
+    } else {
+      loadingSpinner.classList.add("hidden");
+      resultContainer.classList.remove("hidden");
     }
-  } else {
-    if (existingSpinner) {
-      existingSpinner.remove();
-    }
-
-    container.classList.add("hidden"); // ✅ 전체 숨김
+  } catch (e) {
+    console.error("Loading spinner error:", e);
   }
 };
 
 const handleUpdateData = (data) => {
   try {
-    const resultContainer = document.getElementById("result-container");
-
-    resultContainer.classList.remove("hidden");
-
     const content = data.content;
     const summary = data.summary;
     const eval = data.evaluation;
@@ -69,7 +61,7 @@ const handleForm = () => {
 
     if (!url) throw new Error("URL 값이 없습니다.");
 
-    handleLoadingSpinner(true);
+    handleLoading(true);
 
     try {
       const response = await fetch("/api/extract", {
@@ -86,13 +78,13 @@ const handleForm = () => {
       if (!result.success) throw new Error(result?.message || "요청 실패");
 
       handleUpdateData(result.data);
-      handleLoadingSpinner(false);
+      handleLoading(false);
     } catch (err) {
       console.error("요청 실패", err);
 
       alert("요청 중 오류가 발생했습니다.");
     } finally {
-      handleLoadingSpinner(false);
+      handleLoading(false);
     }
   });
 }
