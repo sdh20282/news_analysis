@@ -1,4 +1,4 @@
-const checkNavigation = () => {
+const handleUpdateNavigation = () => {
   const currentPath = window.location.pathname;
   const navLinks = document.querySelectorAll('.navigation a');
 
@@ -11,4 +11,6 @@ const checkNavigation = () => {
   });
 }
 
-checkNavigation();
+document.addEventListener("DOMContentLoaded", () => {
+  handleUpdateNavigation();
+});
