@@ -1,6 +1,7 @@
 let isUploading = false;
+let logInterval = null;
 
-async function uploadExcel(file) {
+const uploadExcel = async (file) => {
   if (isUploading || !file) return;
 
   isUploading = true;
@@ -29,10 +30,8 @@ async function uploadExcel(file) {
     alert(result.message);
 
     const input = document.getElementById("file-input");
-    const fileNameSpan = document.getElementById("file-name");
 
     input.value = '';
-    fileNameSpan.textContent = '선택된 파일 없음';
   } catch (error) {
     console.error("Error occurred while uploading excel file", error)
 
@@ -42,12 +41,11 @@ async function uploadExcel(file) {
   }
 }
 
-function handleExcelChange() {
+const handleExcelChange = () => {
   const fileInput = document.getElementById("file-input");
   const fileNameSpan = document.getElementById("file-name");
 
   if (!fileInput || !fileNameSpan) return;
-
 
   fileInput.addEventListener("change", async (event) => {
     const file = fileInput.files[0];
@@ -58,8 +56,8 @@ function handleExcelChange() {
     const allowedExts = ['xls', 'xlsx'];
     const allowedTypes = [
       'application/haansoftxlsx',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
-      'application/vnd.ms-excel' // .xls
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-excel'
     ];
 
     if (!allowedTypes.includes(file.type) || !allowedExts.includes(ext)) {
@@ -77,6 +75,85 @@ function handleExcelChange() {
   });
 }
 
+const stopPollingLogs = () => {
+  if (logInterval) {
+    clearInterval(logInterval);
+
+    logInterval = null;
+  }
+}
+
+const pollFinetuneLogs = () => {
+  const logElement = document.getElementById("log-output");
+
+  if (!logElement) return;
+
+  if (logInterval) {
+    clearInterval(logInterval);
+  }
+
+  logInterval = setInterval(async () => {
+    try {
+      const res = await fetch("/api/finetune/logs");
+      const data = await res.json();
+
+      logElement.textContent = data.message;
+      logElement.scrollTop = logElement.scrollHeight;
+
+      if (!data.success) {
+        stopPollingLogs();
+      }
+    } catch (e) {
+      logElement.textContent = "[로그 로딩 실패]";
+    }
+  }, 1000);
+};
+
+const startFinetune = async () => {
+  try {
+    const response = await fetch("/api/finetune/start", { method: "POST" });
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(result.message || '서버 오류 발생');
+
+      throw new Error(result.message || '서버 오류 발생');
+    }
+
+    pollFinetuneLogs();
+  } catch (e) {
+    console.error("Error occurred while uploading excel file", error)
+  }
+}
+
+const stopFinetune = async () => {
+  try {
+    const response = await fetch("/api/finetune/stop", { method: "POST" });
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(result.message || '서버 오류 발생');
+
+      throw new Error(result.message || '서버 오류 발생');
+    }
+
+    stopPollingLogs();
+  } catch (e) {
+    console.error("Error occurred while uploading excel file", error)
+  }
+}
+
+const handleFinetuneButtons = () => {
+  const startButton = document.getElementById("start-finetune-button");
+  const stopButton = document.getElementById("stop-finetune-button");
+
+  if (!startButton || !stopButton) return;
+
+  startButton.addEventListener("click", startFinetune);
+  stopButton.addEventListener("click", stopFinetune);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   handleExcelChange();
+  handleFinetuneButtons();
 });

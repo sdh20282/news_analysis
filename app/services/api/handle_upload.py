@@ -39,7 +39,7 @@ async def validate_and_save_excel(file: UploadFile) -> JSONResponse[None]:
                     jsonLine = validate_row(row, colMap)
 
                     if jsonLine is None:
-                        raise Exception(f"JSON 생성 중 오류 발생")
+                        continue
 
                     outFile.write(jsonLine + "\n")
 

@@ -87,8 +87,8 @@ async def get_evaluation_from_gemini_flash(summary: str) -> EvaluationResponse:
 async def generate_data_from_url(url: str) -> JSONResponse[ResponseContent]:
     try:
         content = await fetch_and_parse_url(url)
-        summaryData = await get_summary_from_llama3(content)
-        evalData = await get_evaluation_from_llama3(summaryData.summary)
+        summaryData = await get_summary_from_gemini_flash(content)
+        evalData = await get_evaluation_from_gemini_flash(summaryData.summary)
 
         return success_response(
             message="URL 내용 추출 성공",
