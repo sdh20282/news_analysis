@@ -5,7 +5,7 @@
 {% block title %}URL 데이터 추출 - LLM Admin{% endblock %}
 
 {% block link %}
-  <link rel="stylesheet" href="/static/css/extract.css">
+  <link rel="stylesheet" href="/static/css/compare.css">
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
           <p>여기에 URL을 입력하고 학습시킨 모델과 기존 모델의 차이를 확인할 수 있습니다.</p>          
         </header>
 
-        <form id="extract-form" method="post" action="/">
+        <form id="url-form" method="post" action="/">
           <label for="url">URL:</label>
           <input type="url" id="url" name="url" required placeholder="https://example.com">
           <button type="submit">데이터 추출</button>
@@ -34,12 +34,12 @@
         <div id="result-container" class="result-container hidden">
           <div>
             <p>학습 모델 평가</p>
-            <ul id="result-trainded"></ul>
+            <ul id="result-inference"></ul>
           </div>
 
           <div>
             <p>기존 LLM 평가</p>
-            <ul id="result-exists"></ul>
+            <ul id="result-eval"></ul>
           </div>
         </div>
       </section>
@@ -48,5 +48,5 @@
 {% endblock %}
 
 {% block script %}
-  <script src="/static/js/extract.js"></script>
+  <script src="/static/js/compare.js"></script>
 {% endblock %}

@@ -17,22 +17,13 @@ const handleLoading = (state) => {
   }
 };
 
-const handleUpdateData = (data) => {
+const handleUpdateTrained = (data) => {
   try {
-    const summary = data.summary;
     const eval = data.evaluation;
+    const inference = data.inference;
 
-    const contentElement = document.getElementById("result-content");
-    const summaryElement = document.getElementById("result-summary");
-    const evalElementContainer = document.getElementById("result-evaluation");
-
-    if (contentElement) {
-      contentElement.innerHTML = summary.content;
-    }
-
-    if (summaryElement) {
-      summaryElement.innerHTML = summary.summary;
-    }
+    const evalElementContainer = document.getElementById("result-eval");
+    const inferenceElementContainer = document.getElementById("result-inference");
 
     if (evalElementContainer) {
       const elementList = Object.entries(eval).map(([key, value]) => {
@@ -40,6 +31,14 @@ const handleUpdateData = (data) => {
       }).join("");
 
       evalElementContainer.innerHTML = elementList;
+    }
+
+    if (inferenceElementContainer) {
+      const elementList = Object.entries(inference).map(([key, value]) => {
+        return `<li>${key}: ${value}</li>`;
+      }).join("");
+
+      inferenceElementContainer.innerHTML = elementList;
     }
   } catch (e) {
     console.error(e);
@@ -63,7 +62,7 @@ const handleForm = () => {
     handleLoading(true);
 
     try {
-      const response = await fetch("/api/extract", {
+      const response = await fetch("/api/compare", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +75,7 @@ const handleForm = () => {
 
       if (!result.success) throw new Error(result?.message || "요청 실패");
 
-      handleUpdateData(result.data);
+      handleUpdateTrained(result.data);
       handleLoading(false);
     } catch (err) {
       console.error("요청 실패", err);

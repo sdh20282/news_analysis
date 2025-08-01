@@ -2,6 +2,7 @@ import json
 import numpy as np
 import logging
 import re
+import pickle
 
 from pathlib import Path
 from sklearn.model_selection import train_test_split
@@ -124,6 +125,11 @@ def main():
     model.save("models/finetuned_model.keras")
 
     logger.info("모델 저장 완료: models/finetuned_model")
+
+    with open("models/tokenizer.pkl", "wb") as f:
+        pickle.dump(tokenizer, f)
+
+    logger.info("토크나이저 저장 완료: models/tokenizer.pkl")
 
 
 if __name__ == "__main__":

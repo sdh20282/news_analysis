@@ -1,11 +1,15 @@
 import httpx
 import traceback
 
+from pydantic import BaseModel
+
 from app.schemas.json_response import JSONResponse
 from app.utils.response import success_response, error_response
 
 
-async def generate_llama3_response(prompt: str) -> JSONResponse[str]:
+async def generate_llama3_response(
+    prompt: str, _: BaseModel | None = None
+) -> JSONResponse[str]:
     api_url = "http://localhost:11434/api/generate"
     payload = {
         "model": "llama3",
