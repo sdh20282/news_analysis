@@ -26,7 +26,7 @@ async def generate_data_from_url(url: str) -> JSONResponse[ResponseContent]:
 
         summaryResult = await run_model_and_format_result(
             PromptType.SUMMARY,
-            LLMModelType.GEMINI,
+            LLMModelType.LLAMA,
             SummaryResponse,
             parseResult.data,
         )

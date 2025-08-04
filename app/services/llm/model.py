@@ -5,10 +5,10 @@ from typing import Callable, Awaitable
 
 from app.enums.prompt import PromptType
 from app.enums.model import LLMModelType
+from app.schemas.json_response import JSONResponse
 from app.services.prompt.prompt import generate_prompt
 from app.services.llm.ollama.llama3 import generate_llama3_response
 from app.services.llm.gemini.gemini_flash import generate_gemini_flash_response
-from app.schemas.json_response import JSONResponse
 from app.utils.response import success_response, error_response
 
 
@@ -80,7 +80,7 @@ async def run_model_and_format_result(
     llmType: LLMModelType,
     schema: BaseModel,
     content: str,
-) -> JSONResponse[str]:
+) -> JSONResponse[BaseModel]:
     try:
         promptResult = await generate_prompt(promptType, content)
 

@@ -6,33 +6,27 @@ from app.utils.response import success_response, error_response
 
 
 SUMMARY_TEMPLATE = """
-    This is the result of parsing a news story. I'll tell you what to do from now on.
+    This is the result of parsing a news html. I'll tell you what to do from now on.
 
     1. From the parsing results I delivered, I skip the useless parts except the news body, and only make the news body in text form.
     2. Summarize the news body generated in step 1 at least 200 to 300 characters. The whole content should not be distorted in this process. And I hope it's word-oriented if possible.
 
-    Please return the results of step 1 and 2 in json format. The format is as follows.
+    Output must be valid JSON, exactly matching this format:
+    {"content": "<Stage 1 result>", "summary": "<Stage 2 result>"}
 
-    {
-      "content": Stage 1 results,
-      "summary": Stage 2 results
-    }
-
-    I'll put the parsed result on the bottom. You can analyze it after the sentence. Respond using JSON format.
+    Do not add explanations, comments, or markdown.
+    Here is the parsed result:
 """.strip()
 
 EVALUATION_TEMPLATE = """
-    The text below summarizes news articles. Based on this, please determine whether the article is positive, negative, or neutral. At this time, positive, negative, and neutral should be expressed in % respectively, and the sum of positive%, negative%, and neutral should be 100%.
+    You will be given a news summary. Determine the sentiment distribution in % for positive, negative, and neutral. 
+    The total must be exactly 100.
 
-    Please return the result after organizing it in json format. The format is as follows.
+    Output must be valid JSON, exactly matching this format:
+    {"positive": <int>, "negative": <int>, "neutral": <int>}
 
-    {
-      "positive": positive %,
-      "native": negative %,
-      "neutral": neutral %
-    }
-
-    I'll put the summary on the bottom. You can analyze it after the sentence. Respond using JSON format.
+    Do not add explanations, comments, or markdown.
+    Here is the summary:
 """.strip()
 
 

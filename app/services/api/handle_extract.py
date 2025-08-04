@@ -1,4 +1,5 @@
 import traceback
+
 from pydantic import BaseModel
 
 from app.enums.prompt import PromptType
@@ -7,7 +8,6 @@ from app.schemas.json_response import JSONResponse
 from app.schemas.model_response import SummaryResponse, EvaluationResponse
 from app.services.extract.parser import extract_body_from_html
 from app.services.llm.model import run_model_and_format_result
-
 from app.utils.response import success_response, error_response
 
 
@@ -25,7 +25,7 @@ async def generate_data_from_url(url: str) -> JSONResponse[ResponseContent]:
 
         summaryResult = await run_model_and_format_result(
             PromptType.SUMMARY,
-            LLMModelType.LLAMA,
+            LLMModelType.GEMINI,
             SummaryResponse,
             parseResult.data,
         )
@@ -35,9 +35,9 @@ async def generate_data_from_url(url: str) -> JSONResponse[ResponseContent]:
 
         evalResult = await run_model_and_format_result(
             PromptType.EVALUATION,
-            LLMModelType.LLAMA,
+            LLMModelType.GEMINI,
             EvaluationResponse,
-            summaryResult.data,
+            summaryResult.data.summary,
         )
 
         if not evalResult.success:
